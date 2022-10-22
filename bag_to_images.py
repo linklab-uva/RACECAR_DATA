@@ -43,7 +43,7 @@ def get_opencv_img_from_buffer(buffer, flags):
 
 def readBlobData(files, destination, frame, skipCount=0, showCount=1000000):
     try:
-        topicName = "/vehicle_8/camera/" + frame + "/image/compressed"
+        topicName = "/" + frame + "imageU8"
 
         os.makedirs(os.path.join(destination, frame), exist_ok=True)
 
@@ -134,12 +134,12 @@ def readBlobData(files, destination, frame, skipCount=0, showCount=1000000):
 
 if __name__ == "__main__":
     frames = [
-        "front_left_center",
-        "front_left",
-        "front_right",
-        "rear_left",
-        "rear_right",
-        "front_right_center",
+        "camera_id0",
+        "camera_id1",
+        "camera_id2",
+        "camera_id3",
+        "camera_id4",
+        "camera_id5",
     ]
 
     file_path = args.source + ".db3"

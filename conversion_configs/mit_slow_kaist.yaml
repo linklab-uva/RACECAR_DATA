@@ -1,0 +1,21 @@
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641163600.0
+  end_time: 1641164300.0
+ego:
+  team: 'MIT-PITT-RW'
+  number: 8
+  source_file: 'LVMS-MULTI-SLOW with KAIST/LVMS-MULTI-SLOW with KAIST'
+  target_file: 'LVMS-MULTI-SLOW with KAIST/LVMS-MULTI-SLOW with KAIST'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  novatel: True
+target:
+  team: 'KAIST'
+  number: 4
+  source_file: 'LVMS-MULTI-SLOW with MIT-PITT-RW/sensors_2022-01-02_14-20-08'
+  target_file: 'LVMS-MULTI-SLOW with MIT-PITT-RW/sensors_2022-01-02_14-20-08'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  novatel: True
