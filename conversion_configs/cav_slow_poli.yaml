@@ -1,0 +1,21 @@
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641163600.0
+  end_time: 1641164300.0
+ego:
+  team: 'CAVALIER'
+  number: 8
+  source_file: 'LVMS-MULTI-SLOW with Polimove/rosbag2_2022_01_04-17_06_21'
+  target_file: 'LVMS-MULTI-SLOW with Polimove/rosbag2_2022_01_04-17_06_21'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  novatel: True
+target:
+  team: 'POLIMOVE'
+  number: 4
+  source_file: 'LVMS-MULTI-SLOW with Cavalier/20220104_lvms_multi_polimove_01_OK'
+  target_file: 'LVMS-MULTI-SLOW with Cavalier/20220104_lvms_multi_polimove_01_OK'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  novatel: True

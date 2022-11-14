@@ -1,0 +1,9 @@
+TranslationOffset           translation
+INSFrame                    frame
+float32                     x_offset
+float32                     y_offset
+float32                     z_offset
+float32                     x_uncertainty
+float32                     y_uncertainty
+float32                     z_uncertainty
+INSSourceStatus             translation_source

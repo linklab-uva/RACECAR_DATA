@@ -1,0 +1,11 @@
+std_msgs/Header  header
+Oem7Header       nov_header
+uint32           imu_data_count
+float64          pitch_rate
+float64          roll_rate
+float64          yaw_rate
+float64          lateral_acc
+float64          longitudinal_acc
+float64          vertical_acc
+uint32           reserved1
+uint32           reserved2

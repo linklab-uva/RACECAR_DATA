@@ -1,0 +1,16 @@
+std_msgs/Header             header
+Oem7Header                  nov_header
+float32                     latitude_stdev
+float32                     longitude_stdev  
+float32                     height_stdev
+float32                     north_velocity_stdev
+float32                     east_velocity_stdev
+float32                     up_velocity_stdev
+float32                     roll_stdev
+float32                     pitch_stdev
+float32                     azimuth_stdev
+INSExtendedSolutionStatus   ext_sol_status
+uint16                      time_since_last_update
+uint16                      reserved1
+uint32                      reserved2
+uint32                      reserved3

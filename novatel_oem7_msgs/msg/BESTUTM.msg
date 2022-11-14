@@ -1,0 +1,26 @@
+std_msgs/Header             header
+Oem7Header                  nov_header
+SolutionStatus              sol_status
+PositionOrVelocityType      pos_type
+uint32                      lon_zone_number
+uint32                      lat_zone_letter
+float64                     northing
+float64                     easting
+float64                     height
+float32                     undulation
+uint32                      datum_id
+float32                     northing_stddev
+float32                     easting_stddev
+float32                     height_stddev
+int8[4]                     stn_id
+float32                     diff_age
+float32                     sol_age
+uint8                       num_svs
+uint8                       num_sol_svs
+uint8                       num_sol_ggl1_svs
+uint8                       num_sol_multi_svs
+uint8                       reserved
+BestExtendedSolutionStatus  ext_sol_stat
+uint8                       galileo_beidou_sig_mask
+uint8                       gps_glonass_sig_mask
+

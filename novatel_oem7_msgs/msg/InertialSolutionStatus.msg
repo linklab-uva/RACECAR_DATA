@@ -1,0 +1,14 @@
+
+uint32 INS_INACTIVE            =  0
+uint32 INS_ALIGNING            =  1
+uint32 INS_HIGH_VARIANCE       =  2
+uint32 INS_SOLUTION_GOOD       =  3
+uint32 INS_SOLUTION_FREE       =  6
+uint32 INS_ALIGNMENT_COMPLETE  =  7
+uint32 DETERMINING_ORIENTATION =  8
+uint32 WAITING_INITIAL_POS     =  9
+uint32 WAITING_AZIMUTH         = 10
+uint32 INITIALIZING_BIASES     = 11
+uint32 MOTION_DETECT           = 12
+
+uint32 status
