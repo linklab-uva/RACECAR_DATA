@@ -159,7 +159,7 @@ class OdomConverter(object):
             
             trk_r  = R.from_euler('z',heading)
             quat = (trk_r).as_quat()
-            rot_stdev = (math.pi/2*180)
+            rot_stdev = (math.pi/(2*180))
 
             prev_pos[0] = local_tuple[0]
             prev_pos[1] = local_tuple[1]
@@ -418,5 +418,5 @@ class OdomConverter(object):
 
 
 if __name__ == '__main__':
-    converter = OdomConverter(cfg = 'conversion_configs/mit_slow_kaist.yaml')
+    converter = OdomConverter(cfg = 'conversion_configs/cav_slow_poli.yaml')
     converter.process_data()
