@@ -1,0 +1,16 @@
+multi: False
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641587975.0
+  end_time: 1641588600.0
+ego:
+  team: 'TUM'
+  number: 3
+  source_file: 'LVMS-FAST-140-170/perception_bag_202201072129'
+  target_file: 'SOLO-FAST-140'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_points']
+  novatel: True
+  write_to_bag: True

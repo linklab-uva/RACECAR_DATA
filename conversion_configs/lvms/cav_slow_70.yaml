@@ -1,0 +1,16 @@
+multi: False
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 0.0
+  end_time: 2000000000.0
+ego:
+  team: 'CAVALIER'
+  number: 9
+  source_file: 'LVMS-SLOW-70/rosbag2_2021_12_08-13_12_30'
+  target_file: 'SOLO-SLOW-70'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_points']
+  novatel: True
+  write_to_bag: True

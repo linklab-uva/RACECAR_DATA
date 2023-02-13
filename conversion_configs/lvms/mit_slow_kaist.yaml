@@ -1,3 +1,4 @@
+multi: True
 track:
   name: 'LVMS'
   origin: [36.272371177449344, -115.01030828834901, 594]
@@ -6,16 +7,20 @@ track:
 ego:
   team: 'MIT-PITT-RW'
   number: 8
-  source_file: 'LVMS-MULTI-SLOW with KAIST/LVMS-MULTI-SLOW with KAIST'
-  target_file: 'LVMS-MULTI-SLOW with KAIST/LVMS-MULTI-SLOW with KAIST'
+  source_file: 'LVMS-MULTI-SLOW_w_KAIST/LVMS-MULTI-SLOW_w_KAIST'
+  target_file: 'MULTI-SLOW-KAIST-2'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
   novatel: True
+  write_to_bag: True
 target:
   team: 'KAIST'
   number: 4
-  source_file: 'LVMS-MULTI-SLOW with MIT-PITT-RW/sensors_2022-01-02_14-20-08'
-  target_file: 'LVMS-MULTI-SLOW with MIT-PITT-RW/sensors_2022-01-02_14-20-08'
+  source_file: 'LVMS-MULTI-SLOW_w_MIT-PITT-RW/sensors_2022-01-02_14-20-08'
+  target_file: 'MULTI-SLOW-MIT-2'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
   novatel: True
+  write_to_bag: True

@@ -1,0 +1,16 @@
+multi: False
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1640814300.0
+  end_time: 1640816250.0
+ego:
+  team: 'MIT-PITT-RW'
+  number: 8
+  source_file: 'LVMS-SLOW-70-100/MIT_LVMS_SLOW'
+  target_file: 'SOLO-SLOW-70-100'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
+  novatel: True
+  write_to_bag: True

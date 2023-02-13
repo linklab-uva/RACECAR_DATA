@@ -1,0 +1,26 @@
+multi: True
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641598400.0
+  end_time: 1641599200.0
+ego:
+  team: 'TUM'
+  number: 3
+  source_file: 'LVMS-MULTI-FAST_w_POLIMOVE/perception_bag_202201080026'
+  target_file: 'MULTI-FAST-POLI'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_points']
+  novatel: True
+  write_to_bag: True
+target:
+  team: 'POLIMOVE'
+  number: 5
+  source_file: 'LVMS-MULTI-FAST_w_TUM/20220107_lvms_multi_polimove_gps_only'
+  target_file: 'LVMS-MULTI-FAST_w_TUM/20220107_lvms_multi_polimove_gps_only'
+  gps_topics: ['/novatel_top/bestgnsspos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
+  novatel: True
+  write_to_bag: False

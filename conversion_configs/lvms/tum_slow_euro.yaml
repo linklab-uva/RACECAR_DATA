@@ -1,0 +1,27 @@
+multi: True
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641332100.0
+  end_time: 1641333600.0
+
+ego:
+  team: 'TUM'
+  number: 3
+  source_file: 'LVMS-MULTI-SLOW_w_EURORACING/perception_bag_202201042222'
+  target_file: 'MULTI-SLOW-EURO'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_points']
+  novatel: True
+  write_to_bag: True
+target:
+  team: 'EURORACING'
+  number: 6
+  source_file: 'EURORACING_NOVATEL_RACECAR_DATASET/20220104_LVMS_run2_multi_tum/novatel_gps_driver_20220104_LVMS_run2_multi_tum'
+  target_file: 'EURORACING_NOVATEL_RACECAR_DATASET/20220104_LVMS_run2_multi_tum/novatel_gps_driver_20220104_LVMS_run2_multi_tum'
+  gps_topics: ['/bestpos', '/bestvel']
+  topic_types: ['novatel_gps_msgs/msg/NovatelPosition', 'novatel_gps_msgs/msg/NovatelVelocity']
+  lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
+  novatel: False
+  write_to_bag: False
