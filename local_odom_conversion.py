@@ -464,7 +464,10 @@ class OdomConverter(object):
                     continue
                 if ('novatel' in connection.topic) or ('camera' in connection.topic) or ('radar' in connection.topic) or (connection.topic in lidar_topics):
                     ego_sensors.append(connection.topic)
-                    conn_map[connection.id] = writer.add_connection('/{}{}'.format(ego_namespace,connection.topic), connection.msgtype, 'cdr', '')
+                    if connection.topic[0] != '/':
+                        conn_map[connection.id] = writer.add_connection('/{}/{}'.format(ego_namespace,connection.topic), connection.msgtype, 'cdr', '')
+                    else:
+                        conn_map[connection.id] = writer.add_connection('/{}{}'.format(ego_namespace,connection.topic), connection.msgtype, 'cdr', '')
 
             connections = [x for x in reader.connections if x.topic in ego_sensors]
             for connection, timestamp, rawdata in tqdm(reader.messages(connections=connections)):
@@ -504,7 +507,7 @@ class OdomConverter(object):
         if self.cfg["ego"]["novatel"]:
             ego_odom = self.gen_local_odom(ego_data[ego_topics[0]], ego_data[ego_topics[1]])
         else:
-            ego_odom = self.gen_local_odom_euro(ego_data[ego_topics[0]], ego_data[ego_topics[1]])
+            ego_odom = self.nav2odom(ego_data[ego_topics[0]])
 
         
         pruned_ego_odom = [ego_odom[i] for i, y in enumerate(ego_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
@@ -561,8 +564,43 @@ class OdomConverter(object):
                         end_time=end_time,
                         lidar_topics=ego_lidar)
 
+    def viz_data(self):
+            multi = self.cfg["multi"]
+            track = self.cfg["track"]["name"]
+            start_time = self.cfg["track"]["start_time"]
+            end_time = self.cfg["track"]["end_time"]
+            ego_team = self.cfg["ego"]["team"]
+            ego_num = self.cfg["ego"]["number"]
+            ego_source = self.cfg["ego"]["source_file"]
+            ego_target = self.cfg["ego"]["target_file"]
+            ego_path = os.path.join('../../data/RAW_ROSBAG', ego_team, track, ego_source)
+            ego_target_path = os.path.join('../../data/LOCAL_ODOM', ego_team, track, ego_target)
+            ego_topics = self.cfg["ego"]["gps_topics"]
+            ego_types = self.cfg["ego"]["topic_types"]
+            ego_lidar = self.cfg["ego"]["lidar_topics"]
+            ego_write = self.cfg["ego"]["write_to_bag"]
+
+            ego_data = self.read_bag_file(ego_path, ego_topics, ego_types)
+            cx_pos = []
+            ctime  = []
+            for odom in ego_data['novatel_btm_id0_gps']:
+                cx_pos.append(odom[1].latitude)
+                ctime.append(odom[0]*1e-9)
+
+            plt.rcParams['figure.figsize'] = [50,25]
+
+            fig, ax = plt.subplots(1, 1)
+            ax.plot(ctime, cx_pos, marker='o',color='r',linestyle='-', markersize = 1)
+            # ax.plot(ctime, cy_pos, marker='o',color='r',linestyle='-', markersize = 1)
+            # plt.gca().set_aspect('equal', adjustable = 'box')
+            plt.title('Time vs Position')
+            plt.xlabel('time (s)')
+            plt.ylabel('lat (deg)')
+            plt.savefig('euro_time.pdf')
+
 
 if __name__ == '__main__':
     config_file = str(sys.argv[1])
     converter = OdomConverter(cfg = config_file)
     converter.process_data()
+    # converter.viz_data()

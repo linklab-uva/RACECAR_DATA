@@ -1,0 +1,16 @@
+multi: False
+track:
+  name: 'LVMS'
+  origin: [36.272371177449344, -115.01030828834901, 594]
+  start_time: 1641321200.0
+  end_time: 1641322600.0
+ego:
+  team: 'EURORACING'
+  number: 6
+  source_file: 'LVMS-MULTI-SLOW_w_TUM/20220104_LVMS_run2_multi_tum'
+  target_file: 'MULTI-SLOW-TUM'
+  gps_topics: ['novatel_btm_id0_gps']
+  topic_types: ['sensor_msgs/msg/NavSatFix']
+  lidar_topics: ['luminar_id0_cloud','luminar_l_id0_cloud','luminar_r_id0_cloud']
+  novatel: False
+  write_to_bag: True
