@@ -71,7 +71,7 @@ class OdomConverter(object):
         
 
 
-    def read_bag_file(self, bag_file, topics, topic_types):
+    def read_bag_file(self, bag_file, topics, topic_types, start_time, end_time):
         topic_dict = {}
         for topic in topics:
             topic_dict[topic] = []
@@ -82,6 +82,8 @@ class OdomConverter(object):
             # messages() accepts connection filters
             connections = [x for x in reader.connections if x.topic in topics]
             for connection, timestamp, rawdata in tqdm(reader.messages(connections=connections)):
+                if timestamp*1e-9 < start_time or timestamp*1e-9 > end_time:
+                    continue
                 if connection.msgtype in topic_types:
                     msg = deserialize_cdr(rawdata, connection.msgtype)
                     topic_dict[connection.topic].append((timestamp,msg))
@@ -502,7 +504,7 @@ class OdomConverter(object):
         ego_write = self.cfg["ego"]["write_to_bag"]
 
 
-        ego_data = self.read_bag_file(ego_path, ego_topics, ego_types)
+        ego_data = self.read_bag_file(ego_path, ego_topics, ego_types, start_time, end_time)
 
         if self.cfg["ego"]["novatel"]:
             ego_odom = self.gen_local_odom(ego_data[ego_topics[0]], ego_data[ego_topics[1]])
@@ -510,7 +512,7 @@ class OdomConverter(object):
             ego_odom = self.nav2odom(ego_data[ego_topics[0]])
 
         
-        pruned_ego_odom = [ego_odom[i] for i, y in enumerate(ego_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
+        # pruned_ego_odom = [ego_odom[i] for i, y in enumerate(ego_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
 
         if multi:
             target_team = self.cfg["target"]["team"]
@@ -524,7 +526,7 @@ class OdomConverter(object):
             target_lidar = self.cfg["target"]["lidar_topics"]
             target_write = self.cfg["target"]["write_to_bag"]
 
-            target_data = self.read_bag_file(target_path, target_topics, target_types)
+            target_data = self.read_bag_file(target_path, target_topics, target_types, start_time, end_time)
 
 
             if self.cfg["target"]["novatel"]:
@@ -532,14 +534,14 @@ class OdomConverter(object):
             else:
                 target_odom = self.gen_local_odom_euro(target_data[target_topics[0]], target_data[target_topics[1]])
 
-            pruned_target_odom = [target_odom[i] for i, y in enumerate(target_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
+            # pruned_target_odom = [target_odom[i] for i, y in enumerate(target_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
 
             if ego_write:
                 self.write_merged_bag(ego_bag_file=ego_path, 
                         target_bag = ego_target_path,
                         ego_namespace='vehicle_{}'.format(ego_num),
                         obj_namespace='vehicle_{}'.format(target_num),
-                        ego_odom=pruned_ego_odom,
+                        ego_odom=ego_odom,
                         obj_odom=target_odom,
                         start_time=start_time,
                         end_time=end_time,
@@ -550,8 +552,8 @@ class OdomConverter(object):
                         target_bag = target_target_path,
                         ego_namespace='vehicle_{}'.format(target_num),
                         obj_namespace='vehicle_{}'.format(ego_num),
-                        ego_odom=pruned_target_odom,
-                        obj_odom=pruned_ego_odom,
+                        ego_odom=target_odom,
+                        obj_odom=ego_odom,
                         start_time=start_time,
                         end_time=end_time,
                         lidar_topics=target_lidar)
@@ -559,7 +561,7 @@ class OdomConverter(object):
             self.write_solo_bag(ego_bag_file=ego_path, 
                         target_bag = ego_target_path,
                         ego_namespace='vehicle_{}'.format(ego_num),
-                        ego_odom=pruned_ego_odom,
+                        ego_odom=ego_odom,
                         start_time=start_time,
                         end_time=end_time,
                         lidar_topics=ego_lidar)

@@ -1,0 +1,16 @@
+multi: False
+track:
+  name: 'IMS'
+  origin: [39.795398310617, -86.23476471193612, 223]
+  start_time: 1635010940.0
+  end_time: 1635011400.0
+ego:
+  team: 'TUM'
+  number: 3
+  source_file: 'IMS-FAST-100-140/perception_bag_202110231933'
+  target_file: 'SOLO-FAST-100-140'
+  gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
+  topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
+  lidar_topics: ['/luminar_points']
+  novatel: True
+  write_to_bag: True

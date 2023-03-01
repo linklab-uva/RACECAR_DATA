@@ -1,14 +1,14 @@
 multi: False
 track:
-  name: 'LVMS'
-  origin: [36.272371177449344, -115.01030828834901, 594]
-  start_time: 0.0
+  name: 'IMS'
+  origin: [39.795398310617, -86.23476471193612, 223]
+  start_time: 1635017400.0
   end_time: 2000000000.0
 ego:
   team: 'POLIMOVE'
   number: 5
-  source_file: 'LVMS-SLOW-70/20211228_lvms_solo_slow_polimove'
-  target_file: 'SOLO-SLOW-70'
+  source_file: 'IMS-FAST-140/20211023_ims_fast_polimove_restamped'
+  target_file: 'SOLO-FAST-140'
   gps_topics: ['/novatel_top/bestgnsspos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_left_points','/luminar_right_points','/luminar_front_points']

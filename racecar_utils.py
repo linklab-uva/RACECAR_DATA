@@ -93,6 +93,16 @@ def visualize_position(local_odom):
 
     
 def gen_local_odom(gps_messages, vel_messages, track):
+    
+    from rosbags.typesys.types import nav_msgs__msg__Odometry as Odometry
+    from rosbags.typesys.types import geometry_msgs__msg__PoseWithCovariance as PoseWithCovariance
+    from rosbags.typesys.types import geometry_msgs__msg__TwistWithCovariance as TwistWithCovariance
+    from rosbags.typesys.types import geometry_msgs__msg__Pose as Pose
+    from rosbags.typesys.types import geometry_msgs__msg__Point as Point
+    from rosbags.typesys.types import geometry_msgs__msg__Quaternion as Quaternion
+    from rosbags.typesys.types import geometry_msgs__msg__Twist as Twist
+    from rosbags.typesys.types import geometry_msgs__msg__Vector3 as Vector3
+    from rosbags.typesys.types import sensor_msgs__msg__NavSatFix as NavSatFix
 
     deg2rad = math.pi/180.0
 
