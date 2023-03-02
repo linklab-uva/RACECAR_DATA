@@ -1,4 +1,4 @@
-# Racecar Dataset
+# RACECAR Dataset
 Welcome to the RACECAR dataset!
 ![](https://user-images.githubusercontent.com/25155124/222313249-147a2e71-85da-42de-ac57-becb97a47dbf.png)
 
