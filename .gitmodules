@@ -1,0 +1,5 @@
+[submodule "rosbag2nuscenes"]
+	path = rosbag2nuscenes
+	url = https://github.com/linklab-uva/rosbag2nuscenes
+	branch = main
+	update = merge
