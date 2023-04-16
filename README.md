@@ -10,7 +10,7 @@ Please contact the corresponding author at ark8su@virginia.edu for access to the
 
 ## Data Organization
 
-### Scenarios
+### ROS2 Topics
 
 |Topic Name|Topic Type|Description|
 |----------|----------|-----------|
