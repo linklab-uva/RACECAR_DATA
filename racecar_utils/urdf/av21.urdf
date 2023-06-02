@@ -1,0 +1,156 @@
+<robot name="AV21">
+  <link name="center_of_gravity" />
+
+  <link name="rear_axle_middle" />
+  <link name="rear_axle_middle_ground">
+    <visual>
+      <geometry>
+        <mesh filename="package://il15_description/visual/il15.dae" />
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="gps_top" />
+  <link name="gps_bottom" />
+  <link name="imu_link" />
+
+  <link name="luminar_front" />
+  <link name="luminar_left" />
+  <link name="luminar_right" />
+
+  <link name="camera_front_left" />
+  <link name="camera_front_right" />
+  <link name="camera_rear_left" />
+  <link name="camera_rear_right" />
+  <link name="camera_front_1" />
+  <link name="camera_front_2" />
+
+  <link name="radar_front" />
+  <link name="radar_port" />
+  <link name="radar_starboard" />
+  <link name="radar_rear" />
+
+  <joint name="rear_axle_middle_ground_joint" type="fixed">
+    <parent link="rear_axle_middle_ground" />
+    <child link="rear_axle_middle"/>
+    <origin xyz="0 0 0.198" />
+  </joint>
+
+  <joint name="rear_axle_middle_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="center_of_gravity"/>
+    <origin xyz="1.3206 -0.030188 0.23598" />
+  </joint>
+
+  <joint name="gps_top_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="gps_top" />
+	<origin xyz="1.606 0.05 -0.1428" />
+  </joint>
+
+  <joint name="gps_bottom_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="gps_bottom" />
+	  <origin xyz="1.606 -0.05 -0.1428" />
+  </joint>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="gps_bottom" />
+    <child link="imu_link" />
+	  <origin xyz="0.0 0.05 0.0" />
+  </joint>
+
+  <joint name="luminar_front_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="luminar_front" />
+    <!-- y pointing up-->
+    <!-- <origin xyz="2.242 0 0.448" rpy="1.57079633 0.0 1.57079633"/> -->
+    <!-- y pointing down -->
+    <!-- <origin xyz="2.242 0 0.448" rpy="-1.57079633 0.0 -1.57079633"/> -->
+    <!-- original x-forward convention -->
+    <!-- <origin xyz="2.242 0 0.448" /> -->
+    <origin xyz="2.342 0 0.448" />
+  </joint>
+
+  <joint name="luminar_left_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="luminar_left" />
+    <!-- y pointing up-->
+    <!-- <origin xyz="1.549 0.267 0.543" rpy="1.57079633 0.0 -2.61801928" /> -->
+    <!-- y pointing down-->
+    <!-- <origin xyz="1.549 0.267 0.543" rpy="-1.57079633 0.0 .523573371" /> -->
+    <!-- original x-forward convention -->
+    <origin xyz="1.549 0.267 0.543" rpy="0 0 2.0943951024" />
+  </joint>
+
+  <joint name="luminar_right_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="luminar_right" />
+    <!-- y pointing up-->
+    <!-- <origin xyz="1.549 -0.267 0.543" rpy="1.57079633 0.0 -0.52357337" /> -->
+    <!-- y pointing down-->
+    <!-- <origin xyz="1.549 -0.267 0.543" rpy="-1.57079633 0.0 2.61801928" /> -->
+    <!-- original x-forward convention -->
+    <origin xyz="1.549 -0.267 0.543" rpy="0 0 -2.0943951024" />
+  </joint>
+
+  <joint name="camera_front_left_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_front_left" />
+    <origin xyz="2.184 0.171 0.422" rpy="0 0 0.9599310886" />
+  </joint>
+
+  <joint name="camera_front_right_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_front_right" />
+    <origin xyz="2.184 -0.171 0.422" rpy="0 0 -0.9599310886" />
+  </joint>
+
+  <joint name="camera_rear_left_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_rear_left" />
+    <origin xyz="1.473 0.140 0.543" rpy="0 0 2.2689280276" />
+  </joint>
+
+  <joint name="camera_rear_right_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_rear_right" />
+    <origin xyz="1.473 -0.140 0.543" rpy="0 0 -2.2689280276" />
+  </joint>
+
+  <joint name="camera_front_1_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_front_1" />
+    <origin xyz="2.235 0.121 0.422" />
+  </joint>
+
+<joint name="camera_front_2_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="camera_front_2" />
+    <origin xyz="2.235 -0.121 0.422" />
+  </joint>
+
+  <joint name="radar_front_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="radar_front" />
+    <origin xyz="1.784 0.0 0.594" />
+  </joint>
+
+  <joint name="radar_port_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="radar_port" />
+    <origin xyz="2.032 0.213 0.406" rpy="0 0 1.5707963267949" />
+  </joint>
+
+  <joint name="radar_starboard_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="radar_starboard" />
+    <origin xyz="2.032 -0.213 0.406" rpy="0 0 -1.5707963267949" />
+  </joint>
+
+  <joint name="radar_rear_joint" type="fixed">
+    <parent link="rear_axle_middle" />
+    <child link="radar_rear" />
+    <origin xyz="-0.768 0.0 0.107" rpy="0 0 3.14159265358979" />
+  </joint>
+</robot>
