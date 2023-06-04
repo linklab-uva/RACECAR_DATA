@@ -20,7 +20,7 @@ No additional restrictions — You may not apply legal terms or technological me
 
 ## Data Organization
 
-Each autonomous run from the AV21 was captured in the form of rosbags,
+Each autonomous run from the AV21 was captured with all sensor information stored in rosbags, parsed, and appended with local coordinates in the East-North-Up (ENU) coordinate frame. 
 
 ### Dataset Folder Structure
 
@@ -50,6 +50,10 @@ RACECAR
 ```
 
 The ROS2 portion of the dataset is organized by scenario, with each folder within the scenario folder corresponding to a rosbag. Each of the scenario folders or specific rosbags can be replayed with the typical rosbag2 commands and can be downloaded independently or together.
+
+### Scenario Description
+
+
 
 
 ### ROS2 Topics
@@ -103,11 +107,13 @@ The novatel pwrpak7 used to collect GNSS measurements on the AV21 uses a Y-forwa
 
 Due to cabling considerations, the placement of the unit is rotated 180 degrees around the Z-axis in the vehicle. Therefore orientation measurements coming from topics such as `novatel_oem7_msgs/msg/BESTVEL`, must be rotated 180 degrees in order to correctly correspond to the YXZ convention.
 
-The accompanying Unified Robotics Description Format (urdf) has a coordinate convention of X-forward, Y-left, Z-up. In order to properly match with this convention, orientation and velocity measurements (from the IMU for example) should be rotated 90 degrees counter-clockwise.
+The accompanying Unified Robotics Description Format (urdf) has a coordinate convention of X-forward, Y-left, Z-up. In order to properly match with this convention, orientation and velocity measurements (from the IMU for example) should be rotated a subsequent 90 degrees counter-clockwise. A 90 degree clockwise rotation will equate to the same series of transformations.
+
+![](docs/images/coordinate_frames.png)
 
 We have taken into account these rotations in the `local_odometry` topic, but if you desire to use the raw measurements to do your own sensor fusion or filtering, please take these orientations into account.
 
-The accompanying urdf contains joints for every sensor on the car, as well as the approximate center of gravity.
+The accompanying urdf contains joints for every sensor on the car, as well as the approximate center of gravity. These were measured during the initial assembly of the car.
 
 ![](docs/images/av21_urdf.png)
 
@@ -149,3 +155,12 @@ sudo apt install ros-${ROS_DISTRO}-can-msgs
 
 ### Visualization using RVIZ
 
+When replaying a bag, it is recommended to publish the ego vehicles odometry as part of the tf tree, in order to visualize it's position and sensor data in reference to the inertial map frame.
+
+We have provided an example node `odom_to_tf.cpp`, that takes in the `local_odometry` topics from both the ego and opponenet vehicles and publishes them to the tf tree. It is important to have the ego vehicle's frame match up with the appropriate frame in the URDF so that LiDAR and Radar point clouds can be easily visualized.
+
+The node and accompanying launch file should be built along with `racecar_utils`. To run, use the launch file and use the provided parameters to remap the odometry topic names appropriately.
+
+```
+ros2 launch racecar_utils odom_to_tf.launch.py ego_topic:=/vehicle_3/local_odometry opp_topic:=/vehicle_5/local_odometry
+```
