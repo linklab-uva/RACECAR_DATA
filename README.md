@@ -97,6 +97,20 @@ The `delphi_esr_msgs`, `novatel_oem7_msgs`, and `novatel_gps_msgs` are the radar
 |`radar_xxx/detection`| `delphi_mrr_msgs/msg/Detection`|Detection from Aptiv MRR Radar|
 |`local_odometry`| `nav_msgs/msg/Odometry`|Vehicle odometry in Cartesian coordinates derived from RTK GNSS solution|
 
+### Coordinate Conventions
+
+The novatel pwrpak7 used to collect GNSS measurements on the AV21 uses a Y-forward, X-right, Z-up coordinate convention. Exact measurements and orientation can be found [here](https://docs.novatel.com/OEM7/Content/Technical_Specs_Receiver/PwrPak7_Mechanicals.htm).
+
+Due to cabling considerations, the placement of the unit is rotated 180 degrees around the Z-axis in the vehicle. Therefore orientation measurements coming from topics such as `novatel_oem7_msgs/msg/BESTVEL`, must be rotated 180 degrees in order to correctly correspond to the YXZ convention.
+
+The accompanying Unified Robotics Description Format (urdf) has a coordinate convention of X-forward, Y-left, Z-up. In order to properly match with this convention, orientation and velocity measurements (from the IMU for example) should be rotated 90 degrees counter-clockwise.
+
+We have taken into account these rotations in the `local_odometry` topic, but if you desire to use the raw measurements to do your own sensor fusion or filtering, please take these orientations into account.
+
+The accompanying urdf contains joints for every sensor on the car, as well as the approximate center of gravity.
+
+![](docs/images/av21_urdf.png)
+
 ## Using the Dataset
 
 ### Installation of Custom ROS2 Messages
@@ -132,4 +146,6 @@ The `can_msgs` package should be available via apt.
 ```
 sudo apt install ros-${ROS_DISTRO}-can-msgs
 ```
+
+### Visualization using RVIZ
 
