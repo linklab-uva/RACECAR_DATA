@@ -52,6 +52,16 @@ def generate_launch_description():
         parameters=[{use_sim_time.name: LaunchConfiguration(use_sim_time.name)}],
     ))
 
+    # nodes.append(Node(
+    #     package='racecar_utils',
+    #     executable='convert_imu_node',
+    #     name='convert_imu',
+    #     namespace=LaunchConfiguration(namespace.name),
+    #     remappings=[("imu_in", 'novatel_top/rawimu'),
+    #                 ("imu_out", 'corrected_imu')],
+    #     parameters=[{"gps_frame": "gps_top",use_sim_time.name: LaunchConfiguration(use_sim_time.name)}],
+    # ))
+
     nodes.append(Node(
     package='robot_state_publisher',
     executable='robot_state_publisher',

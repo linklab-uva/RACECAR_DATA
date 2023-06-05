@@ -22,7 +22,29 @@ No additional restrictions — You may not apply legal terms or technological me
 
 ## Data Organization
 
-Each autonomous run from the AV21 was captured with all sensor information stored in rosbags, parsed, and appended with local coordinates in the East-North-Up (ENU) coordinate frame. 
+Each autonomous run was captured with all sensor information stored in rosbags, parsed, and appended with local coordinates in the East-North-Up (ENU) coordinate frame. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it captured at.
+
+### Scenario Description
+
+|Scenario|Track|Description|Speeds|
+|----------|----------|-----------|-----------|
+|S<sub>1</sub>|LVMS|Solo Slow Lap|\< 70 mph|
+|S<sub>2</sub>|LVMS|Solo Slow Lap|70-100 mph|
+|S<sub>3</sub>|LVMS|Solo Fast Lap|100-140 mph|
+|S<sub>4</sub>|LVMS|Solo Fast Lap|\> 140 mph|
+|S<sub>5</sub>|LVMS|Multi-Agent Slow|\< 100 mph|
+|S<sub>6</sub>|LVMS|Multi-Agent Fast|\> 130 mph|
+|S<sub>7</sub>|IMS|Solo Slow Lap|\< 70 mph|
+|S<sub>8</sub>|IMS|Solo Slow Lap|70-100 mph|
+|S<sub>9</sub>|IMS|Solo Fast Lap|100-140 mph|
+|S<sub>10</sub>|IMS|Solo Fast Lap|\> 140 mph|
+|S<sub>11</sub>|IMS|Pylon Avoidance|\< 70 mph|
+
+### nuScenes Data Format
+
+We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
+
+Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
 
 ### Dataset Folder Structure
 
@@ -52,11 +74,6 @@ RACECAR
 ```
 
 The ROS2 portion of the dataset is organized by scenario, with each folder within the scenario folder corresponding to a rosbag. Each of the scenario folders or specific rosbags can be replayed with the typical rosbag2 commands and can be downloaded independently or together.
-
-### Scenario Description
-
-
-
 
 ### ROS2 Topics
 
@@ -115,9 +132,10 @@ The accompanying Unified Robotics Description Format (urdf) has a coordinate con
 
 We have taken into account these rotations in the `local_odometry` topic, but if you desire to use the raw measurements to do your own sensor fusion or filtering, please take these orientations into account.
 
-The accompanying urdf contains joints for every sensor on the car, as well as the approximate center of gravity. These were measured during the initial assembly of the car.
+The accompanying urdf, located in `racecar_utils/urdf` contains joints for every sensor on the car, as well as the approximate center of gravity. These were measured during the initial assembly of the car.
 
 ![](docs/images/av21_urdf.png)
+
 
 ## Using the Dataset
 
@@ -181,22 +199,28 @@ We have also provided an RVIZ config for visualizing camera images from the bags
 
 Please note that this RVIZ configuration is set to show the images from all six bag topics in the format `camera_idX_imageU8`, which is different from the specified camera topics above. If you would like to visualize other camera topics, you may simply change the topic information in the RVIZ configuration.
 
-
-### nuScenes Data Format
-
-We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
-
-Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
 ### Tutorial: Localization
 
 An example of using the dataset is creating a more robust localization method than just using GPS. If you have examined a few of the scenarios, you may notice that there are occasional message drops, spikes in GNSS standard deviation, or small abrubt shifts in reported position. For accurate object detection, having smooth unfettered orientation estimates is very useful, so we will implement a simple extended kalman filter in order to filter through these noisy measurements.
 
-An open source package, `robot_localization` which is shipped as part of the full ROS2 installation will suffice to fuse measurements from a GNSS receiver, and an IMU. Install the package with the following command.
+An open source package, `robot_localization` which is shipped as part of the full ROS2 installation will suffice to fuse measurements from a GNSS receiver, and an IMU. Install the package with the following command. For additional details about using the package, please reference the [repository documentation](https://github.com/cra-ros-pkg/robot_localization/blob/ros2/doc/configuring_robot_localization.rst) directly.
 
 ```
 sudo apt install ros-${ROS_DISTRO}-robot-localization
 ```
 
-In order to use the extended kalman filter, we must transform our inputs into standard message types, and make sure they are in a common coordinate system. Please see [Coordinate Conventions](#coordinate-conventions). Using the `convert_imu` node, we convert the `novatel_oem7_msgs/msg/RAWIMU` message to the standard `sensor_msgs/msg/Imu` which feeds into `robot_localization`. The `local_odometry` topic is already a stantard message type, and does not need to be adjusted.
+In order to use the extended kalman filter, we must transform our inputs into standard message types, and make sure they are in a common coordinate system. Please see [Coordinate Conventions](#coordinate-conventions) for the required rotations. Using the `convert_imu` node, we convert the `novatel_oem7_msgs/msg/RAWIMU` message to the standard `sensor_msgs/msg/Imu` which feeds into `robot_localization`. The `local_odometry` topic is already a stantard message type, and does not need to be adjusted.
 
 We provide a simple configuration file `config/ekf.yaml` which instructs the ekf node to subscribe to the `local_odometry` topic, and the frame corrected IMU topics.
+
+To run the example, source the workspace and run your selected bag using a clock message. Subsequently run the provided launch file
+
+```
+ros2 bag play YOUR/BAG/HERE --clock 100.0
+```
+
+```
+ros2 launch racecar_utils localization.launch.py ns:=vehicle_x use_sim_time:=true
+```
+
+Using a different motion model, tweaking the sensor measurement covariances, and adjusting which inputs are used, are all methods to gain more stable performance from the filter.
