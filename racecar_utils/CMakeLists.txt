@@ -25,19 +25,19 @@ add_executable(odom_to_tf_node src/odom_to_tf.cpp)
 target_link_libraries(odom_to_tf_node Eigen3::Eigen)
 ament_target_dependencies(odom_to_tf_node rclcpp std_msgs nav_msgs tf2_ros tf2_eigen)
 
-# add_executable(convert_imu_node src/convert_imu_msg.cpp)
-# target_link_libraries(convert_imu_node)
-# ament_target_dependencies(convert_imu_node rclcpp std_msgs sensor_msgs novatel_oem7_msgs)
+add_executable(convert_imu_node src/convert_imu_msg.cpp)
+target_link_libraries(convert_imu_node)
+ament_target_dependencies(convert_imu_node rclcpp std_msgs sensor_msgs novatel_oem7_msgs)
 
 install(
   TARGETS odom_to_tf_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# install(
-#   TARGETS convert_imu_node
-#   DESTINATION lib/${PROJECT_NAME}
-# )
+install(
+  TARGETS convert_imu_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(TARGETS
   rosbag_merger
