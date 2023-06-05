@@ -16,36 +16,43 @@ from launch.actions import DeclareLaunchArgument
 def generate_launch_description():
 
     share_dir = get_package_share_directory('racecar_utils')
-    launch_dir = os.path.join(share_dir, 'launch')
+    launch_dir = os.path.join(share_dir, 'launch')    
     urdf = os.path.join(launch_dir, 'av21.urdf')
     rviz_path = os.path.join(launch_dir, 'lidar_tf.rviz')
 
     with open(urdf, 'r') as infp:
         robot_desc = infp.read()
 
-    arg_list = []
-    ego_topic=LaunchConfiguration("ego_topic")
-    opp_topic=LaunchConfiguration("opp_topic")
-
-    ego_topic_arg = DeclareLaunchArgument("ego_topic", default_value="", description="topic name for ego odometry")
-    opp_topic_arg = DeclareLaunchArgument("opp_topic", default_value="", description="topic name for opp odometry")
-    
+    args = []
+    namespace=DeclareLaunchArgument("ns", default_value="")
+    args.append(namespace)
     use_sim_time=DeclareLaunchArgument("use_sim_time", default_value="false")
-    arg_list.append(use_sim_time)
-    arg_list.append(ego_topic_arg)
-    arg_list.append(opp_topic_arg)
+    args.append(use_sim_time)
 
-    node_list= []
-    node_list.append(Node(
+    nodes= []
+
+    nodes.append(Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        namespace=LaunchConfiguration(namespace.name),
+        output='screen',
+        remappings=[("/diagnostics",       "diagnostics"),
+                    ("/odometry/filtered", "odometry/filtered"),
+                    ("/accel/filtered",    "accel/filtered") ],
+        parameters=[os.path.join(launch_dir, 'ekf.yaml'), {use_sim_time.name: LaunchConfiguration(use_sim_time.name)}]
+    ))
+
+    nodes.append(Node(
         package='racecar_utils',
         executable='odom_to_tf_node',
         name='odom_to_tf',
-        remappings=[("odom_ego", ego_topic),
-                    ("odom_opp", opp_topic)],
+        namespace=LaunchConfiguration(namespace.name),
+        remappings=[("odom_ego", 'odometry/filtered')],
         parameters=[{use_sim_time.name: LaunchConfiguration(use_sim_time.name)}],
     ))
 
-    node_list.append(Node(
+    nodes.append(Node(
     package='robot_state_publisher',
     executable='robot_state_publisher',
     name="robot_state_publisher",
@@ -57,7 +64,7 @@ def generate_launch_description():
     }]
     ))
 
-    node_list.append(Node(
+    nodes.append(Node(
             package    = 'rviz2',
             namespace  = 'lead',
             executable = 'rviz2',
@@ -65,4 +72,5 @@ def generate_launch_description():
             arguments  = ['-d' + str(rviz_path)] 
     )),
 
-    return LaunchDescription(arg_list+node_list)
+
+    return LaunchDescription(args+nodes)

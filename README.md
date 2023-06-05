@@ -187,3 +187,16 @@ Please note that this RVIZ configuration is set to show the images from all six 
 We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
 
 Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
+### Tutorial: Localization
+
+An example of using the dataset is creating a more robust localization method than just using GPS. If you have examined a few of the scenarios, you may notice that there are occasional message drops, spikes in GNSS standard deviation, or small abrubt shifts in reported position. For accurate object detection, having smooth unfettered orientation estimates is very useful, so we will implement a simple extended kalman filter in order to filter through these noisy measurements.
+
+An open source package, `robot_localization` which is shipped as part of the full ROS2 installation will suffice to fuse measurements from a GNSS receiver, and an IMU. Install the package with the following command.
+
+```
+sudo apt install ros-${ROS_DISTRO}-robot-localization
+```
+
+In order to use the extended kalman filter, we must transform our inputs into standard message types, and make sure they are in a common coordinate system. Please see [Coordinate Conventions](#coordinate-conventions). Using the `convert_imu` node, we convert the `novatel_oem7_msgs/msg/RAWIMU` message to the standard `sensor_msgs/msg/Imu` which feeds into `robot_localization`. The `local_odometry` topic is already a stantard message type, and does not need to be adjusted.
+
+We provide a simple configuration file `config/ekf.yaml` which instructs the ekf node to subscribe to the `local_odometry` topic, and the frame corrected IMU topics.
