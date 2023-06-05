@@ -168,3 +168,15 @@ ros2 launch racecar_utils odom_to_tf.launch.py ego_topic:=/vehicle_3/local_odome
 ```
 
 [![RVIZ LiDAR Viz](http://img.youtube.com/vi/5KDiXADwiO8/0.jpg)](http://www.youtube.com/watch?v=5KDiXADwiO8 "RACECAR Dataset - GPS Labels of LiDAR")
+
+**Camera RVIZ**
+
+We have also provided an RVIZ config for visualizing camera images from the bags.
+
+```
+./racecar_utils/rviz/cameras.rviz
+```
+
+![Camera RVIZ Example](docs/images/camera_rviz.png)
+
+Please note that this RVIZ configuration is set to show the images from all six bag topics in the format `camera_idX_imageU8`, which is different from the specified camera topics above. If you would like to visualize other camera topics, you may simply change the topic information in the RVIZ configuration.
