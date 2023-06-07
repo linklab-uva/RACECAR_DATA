@@ -8,24 +8,47 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rosbag2_cpp REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(rcpputils REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(novatel_oem7_msgs REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(Eigen3 REQUIRED)
+include_directories(include)
 
 add_executable(rosbag_merger src/rosbag_merger.cpp)
 ament_target_dependencies(rosbag_merger rosbag2_cpp rcpputils)
+
+add_executable(odom_to_tf_node src/odom_to_tf.cpp)
+target_link_libraries(odom_to_tf_node Eigen3::Eigen)
+ament_target_dependencies(odom_to_tf_node rclcpp std_msgs nav_msgs tf2_ros tf2_eigen)
+
+add_executable(convert_imu_node src/convert_imu_msg.cpp)
+target_link_libraries(convert_imu_node)
+ament_target_dependencies(convert_imu_node rclcpp std_msgs sensor_msgs novatel_oem7_msgs)
+
+install(
+  TARGETS odom_to_tf_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  TARGETS convert_imu_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(TARGETS
   rosbag_merger
   DESTINATION lib/${PROJECT_NAME})
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+install(DIRECTORY
+  urdf/
+  launch/
+  rviz/
+  config/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
 
 ament_package()

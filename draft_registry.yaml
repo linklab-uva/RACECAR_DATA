@@ -1,0 +1,37 @@
+Name: RACECAR Dataset
+Description: The RACECAR dataset is a collection of racing scenarios with full scale and high speed autonomous Indy Lights cars. These vehicles captured a plethora of LiDAR, Camera, Radar, GNSS, and IMU data during the 2021-2022 racing season of the Indy Autonomous Challenge. The dataset contains racing scenarios in the rosbag2 and nuScenes format.
+Documentation: https://github.com/linklab-uva/RACECAR_DATA
+Contact:
+ManagedBy:
+UpdateFrequency:
+Tags:
+  -
+License:
+Citation:
+Resources:
+  - Description:
+    ARN:
+    Region:
+    Type:
+    Explore:
+DataAtWork:
+  Tutorials:
+    - Title:
+      URL: 
+      NotebookURL:
+      AuthorName:
+      AuthorURL:
+      Services:
+  Tools & Applications:
+    - Title: rosbag2nuscenes
+      URL: https://github.com/linklab-uva/rosbag2nuscenes
+      AuthorName:
+      AuthorURL:
+  Publications:
+    - Title:
+      URL:
+      AuthorName:
+      AuthorURL:
+DeprecatedNotice:
+ADXCategories:
+  -  
