@@ -16,6 +16,7 @@ This repository contains scripts used to parse the dataset, custom ros messages 
 - [Coordinate Conventions](#coordinate-conventions)
 - [ROS2](#ros2)
     - [Folder Structure](#folder-structure)
+    - [Data Processing](#data-processing)
     - [Topic List](#topic-list)
     - [Tutorial: Visualization](#tutorial-ros2-visualization)
         - [Custom ROS2 Messages](#installation-of-custom-ros2-messages)
@@ -35,7 +36,7 @@ Each autonomous run was captured with all sensor information in a rosbag. All da
 
 ## Data Format
 
-The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories. Both data formats contain all available sensor information, however
+The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories.
 
 ```
 ├── data
@@ -117,6 +118,10 @@ The ROS2 folder structure is organized by scenario, with each scenario folder co
 ```
 TEAM_DESCRIPTION
 ```
+
+### Data Processing
+
+The ROS2 data was parsed and processed using python utility scripts located in `racecar_py`. You can use these [scripts](racecar_py) as a baseline for doing your own bag conversion or coordiante system transformations. 
 
 ### Topic List
 
