@@ -24,14 +24,14 @@ This repository contains scripts used to parse the dataset, custom ros messages 
     - [Tutorial: Localization](#tutorial-ros2-localization)
 - [nuScenes](#nuscenes)
     - [Folder Structure](#folder-structure-1)
-    - <a href="https://github.com/linklab-uva/rosbag2nuscenes/blob/main/nuscenes_tutorial.ipynb" target="_blank">Tutorial: nuScenes</a>
+    - [Tutorial: nuScenes](#tutorial-nuscenes-jupyter-notebook)
 - [License](#data-usage-and-license)
 - [Acknowledgements](#acknowledgements)
 - [Citation](#citation)
 
 ## Data Capture
 
-Each autonomous run was captured with all sensor information in a rosbag. All data was recorded and contributed by six of the participating teams in the Indy Autonomous Challenge. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it captured at.
+Each autonomous run was captured with all sensor information in a rosbag. All data was recorded and contributed by six of the participating teams in the Indy Autonomous Challenge. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it was captured at.
 
 
 ## Data Format
@@ -127,7 +127,7 @@ The ROS2 data was parsed and processed using python utility scripts located in `
 
 All topics in the dataset are namespaced by their vehicle number. Each rosbag contains all sensor data available from the ego vehicle, and if a multi-agent label is included, it will be present as an `nav_msgs/msg/Odometry` topic named `local_odometry`.
 
-If additional namespacing or merging is required, a script is included in the racecar_utils folder called rosbag_merger. The inbuilt rosbag2 cli tools available in ROS2 Humble are also useful for performing bag merging and conversion.
+If additional namespacing or merging is required, a script is included in the racecar_utils folder called `rosbag_merger`. The inbuilt rosbag2 cli tools available in ROS2 Humble are also useful for performing bag merging and conversion.
 
 |Topic Name|Topic Type|Description|
 |----------|----------|-----------|
@@ -200,12 +200,12 @@ All code was tested with the following environment.
 
 For `racecar_utils` please install the following.
 
-- ROS2 (Galactic/Humble)
-- Eigen3
+- ROS2 (<a href="https://docs.ros.org/en/galactic/Installation.html" target="_blank">Galactic</a>/<a href="https://docs.ros.org/en/humble/Installation.html" target="_blank">Humble</a>)
+- <a href="https://eigen.tuxfamily.org/index.php?title=Main_Page" target="_blank">Eigen3</a>
 
 #### Installation of Custom ROS2 Messages
 
-The `delphi_esr_msgs`, `novatel_oem7_msgs`, and `novatel_gps_msgs` are the radar and gps messages obtained from the Autonomous Stuff and Novatel drivers. Install these packages in order to parse the radar and novatel custom messages in the dataset.
+The `delphi_esr_msgs`, `novatel_oem7_msgs`, and `novatel_gps_msgs` are the radar and gps messages obtained from the Autonomous Stuff and Novatel drivers. Install these packages in order to parse the radar and novatel custom messages in the dataset. They are all located in the `ros2_custom_msgs` directory.
 
 - novatel_oem7_msgs
 - novatel_gps_msgs
@@ -337,7 +337,14 @@ RACECAR nuScenes
 For more information on the contents of each JSON file, please refer to [the nuScenes documentation](https://www.nuscenes.org/nuscenes#data-format).
 
 Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widen opportunities for exploration into mapping and localization problems. 
-Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
+Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). 
+Each scene in this format is seperated by the same [Scenario](#scenario-description) classification as the rosbags.
+
+[This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
+
+### Tutorial: nuScenes jupyter notebook
+
+For a full walkthrough of using the nuScenes devkit and loading and visualizing the RACECAR data using it, please refer to this <a href="https://github.com/linklab-uva/rosbag2nuscenes/blob/main/nuscenes_tutorial.ipynb" target="_blank">jupyter notebook</a>
 
 ## Data Usage and License
 This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
