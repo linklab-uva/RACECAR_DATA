@@ -9,32 +9,93 @@ This repository contains scripts used to parse the dataset, custom ros messages 
 
 ## Overview
 
-- [Data Format](#data-format)
+- [Data Collection](#data-collection)
+- [Data Usage and Availability](#data-usage-and-availability)
+    - [Data Usage and Licensce](#data-usage-and-license)
+    - [Citation](#citation)
+    - [Availability](#availability)
+- [Data Organization](#data-organization)
 - [Scenario Description](#scenario-description)
-- [Data Availability](#data-availability)
-- [Data Capture](#data-capture)
 - [Coordinate Conventions](#coordinate-conventions)
-- [ROS2](#ros2)
+- [RACECAR ROS2 - Data Structure](#racecar-ros2---data-structure)
     - [Folder Structure](#folder-structure)
     - [Data Processing](#data-processing)
     - [Topic List](#topic-list)
-    - [Tutorial: Visualization](#tutorial-ros2-visualization)
+- [RACECAR nuScenes - Data Structure](#racecar-nuscenes---data-structure)
+    - [Folder Structure](#folder-structure-1)
+- [Tutorials](#tutorials)
+    - [Tutorial 1: Visualization](#tutorial-1-ros2-visualization)
         - [Custom ROS2 Messages](#installation-of-custom-ros2-messages)
         - [RVIZ](#visualization-in-rviz)
-    - [Tutorial: Localization](#tutorial-ros2-localization)
-- [nuScenes](#nuscenes)
-    - [Folder Structure](#folder-structure-1)
-    - [Tutorial: nuScenes](#tutorial-nuscenes-jupyter-notebook)
-- [License](#data-usage-and-license)
-- [Acknowledgements](#acknowledgements)
-- [Citation](#citation)
+    - [Tutorial 2: Localization](#tutorial-2-ros2-localization)
+    - [Tutorial 3: nuScenes](#tutorial-3-nuscenes-jupyter-notebook)
+- [Acknowledgements](#acknowledgement)
 
-## Data Capture
+## Data Collection
 
-Each autonomous run was captured with all sensor information in a rosbag. All data was recorded and contributed by six of the participating teams in the Indy Autonomous Challenge. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it was captured at.
+The RACECAR dataset is compiled by contributions from
+several teams, all of whom competed in the inaugural season
+of the Indy Autonomous Challenge during 2021-22. Nine
+university teams participated in two races. The first race was
+held at the Indianapolis Motor Speedway (IMS) track in
+Indiana, USA in October 2021, and the second race was held at Las Vegas Motor
+Speedway (LVMS) in January 2022. At IMS, teams reached speeds up to
+150 mph on straights and 136 mph in turns, competing in
+solo vehicle time trials and obstacle avoidance. At LVMS,
+teams participated in a head-to-head overtaking competition
+reaching speeds in excess of 150 mph, with the fastest
+overtake taking place at 170 mph.
 
+The AV-21 Indy Lights vehicle is outfitted
+with three radars, six pinhole cameras, and three solid-
+state LiDARs. Each of the sensor modalities covers a 360-
+degree field of view around the vehicle. For localization,
+the vehicle is equipped with two sets of high-precision
+Real-Time Kinematic (RTK) GNSS receivers and IMU.
 
-## Data Format
+The nine teams that participated were:
+
+|Team|Initial|
+|----|-------|
+|Black and Gold Autonomous Racing|B|
+|TUM Autonomous Motorsport|T|
+|KAIST|K|
+|PoliMOVE|P|
+|TII EuroRacing|E|
+|AI Racing Tech|H|
+|MIT-PITT-RW|M|
+|Cavalier Autonomous Racing|C|
+|Autonomous Tiger Racing|A|
+
+## Data Usage and Availability
+
+### Data Usage and License
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+Under the following terms:
+
+Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+NonCommercial — You may not use the material for commercial purposes.
+No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+### Citation
+
+Please refer to our [paper](https://arxiv.org/pdf/2306.03252.pdf) for more information and cite it if you use it in your research.
+
+```
+@misc{racecar2023,
+      title={RACECAR -- The Dataset for High-Speed Autonomous Racing}, 
+      author={Amar Kulkarni and John Chrosniak and Emory Ducote and Florian Sauerbeck and Andrew Saba and Utkarsh Chirimar and John Link and Marcello Cellina and Madhur Behl},
+      year={2023},
+      eprint={2306.03252},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
+}
+```
+
+### Availability
+
+## Data Organization
 
 The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories.
 
@@ -44,7 +105,7 @@ The dataset is released in both the <a href="https://github.com/ros2/rosbag2" ta
 │   ├── RACECAR
 ```
 
-### Scenario Description
+## Scenario Description
 
 Each recorded autonomous run is classified by a scenario description. This indicates the speed range of the run, the track the run takes place, and whether or not the run is multi-agent. Also specified are which teams contributed to each scenario.
 
@@ -64,9 +125,6 @@ Each recorded autonomous run is classified by a scenario description. This indic
 
 \* C - Cavalier, E - EuroRacing, K - KAIST, M - MIT-PITT-RW, P - PoliMove, T - TUM
 
-## Data Availability
-
-Public Hosting TBD
 
 ## Coordinate Conventions
 
@@ -84,7 +142,7 @@ The accompanying urdf, located in `racecar_utils/urdf` contains joints for every
 
 ![](docs/images/av21_urdf.png)
 
-## ROS2
+## RACECAR ROS2 - Data Structure
 
 ### Folder Structure
 
@@ -189,7 +247,59 @@ For GNSS:
 - `novatel_top`
 - `novatel_bottom`
 
-### Tutorial: ROS2 Visualization
+## RACECAR nuScenes - Data Structure
+
+We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2. The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
+
+![nuScenes Block Diagram](https://www.nuscenes.org/public/images/nuscenes-schema.svg)
+
+### Folder Structure
+
+The nuScenes dataset is structured as follows:
+
+```
+RACECAR nuScenes
+    ├── v1.0-mini
+    │   ├── scene.json
+    │   ├── log.json
+    │   ├── map.json
+    │   ├── sample.json
+    │   ├── sample_data.json
+    │   ├── ego_pose.json
+    │   ├── calibrated_sensor.json
+    │   ├── sensor.json
+    │   ├── instance.json
+    │   ├── sample_annotation.json
+    │   ├── category.json
+    │   ├── attribute.json
+    │   └── visibility.json 
+    ├── samples   
+    │   ├── SENSOR1
+    │   │   ├── data(.png, .pcd, .pcd.bin)
+    │   │   └── ... 
+    │   └── SENSOR2
+    │       ├── data(.png, .pcd, .pcd.bin)
+    │       └── ...
+    ├── sweeps   
+    │   ├── SENSOR1
+    │   │   ├── data(.png, .pcd, .pcd.bin)
+    │   │   └── ... 
+    │   └── SENSOR2
+    │       ├── data(.png, .pcd, .pcd.bin)
+    │       └── ...
+    
+```
+For more information on the contents of each JSON file, please refer to [the nuScenes documentation](https://www.nuscenes.org/nuscenes#data-format).
+
+Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widen opportunities for exploration into mapping and localization problems. 
+Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). 
+Each scene in this format is seperated by the same [Scenario](#scenario-description) classification as the rosbags.
+
+[This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
+
+## Tutorials
+
+### Tutorial 1: ROS2 Visualization
 
 #### Requirements
 
@@ -266,7 +376,8 @@ We have also provided an RVIZ config for visualizing camera images from the bags
 
 Please note that this RVIZ configuration is set to show the images from all six bag topics in the format `camera_idX_imageU8`, which is different from the specified camera topics above. If you would like to visualize other camera topics, you may simply change the topic information in the RVIZ configuration.
 
-### Tutorial: ROS2 Localization
+
+### Tutorial 2: ROS2 Localization
 
 An example of using the dataset is creating a more robust localization method than just using GPS. If you have examined a few of the scenarios, you may notice that there are occasional message drops, spikes in GNSS standard deviation, or small abrubt shifts in reported position. For accurate object detection, having smooth unfettered orientation estimates is very useful, so we will implement a simple extended kalman filter in order to filter through these noisy measurements.
 
@@ -292,86 +403,13 @@ ros2 launch racecar_utils localization.launch.py ns:=vehicle_x use_sim_time:=tru
 
 Using a different motion model, tweaking the sensor measurement covariances, and adjusting which inputs are used, are all methods to gain more stable performance from the filter.
 
-## nuScenes
-
-We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2. The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
-
-![nuScenes Block Diagram](https://www.nuscenes.org/public/images/nuscenes-schema.svg)
-
-### Folder Structure
-
-The nuScenes dataset is structured as follows:
-
-```
-RACECAR nuScenes
-    ├── v1.0-mini
-    │   ├── scene.json
-    │   ├── log.json
-    │   ├── map.json
-    │   ├── sample.json
-    │   ├── sample_data.json
-    │   ├── ego_pose.json
-    │   ├── calibrated_sensor.json
-    │   ├── sensor.json
-    │   ├── instance.json
-    │   ├── sample_annotation.json
-    │   ├── category.json
-    │   ├── attribute.json
-    │   └── visibility.json 
-    ├── samples   
-    │   ├── SENSOR1
-    │   │   ├── data(.png, .pcd, .pcd.bin)
-    │   │   └── ... 
-    │   └── SENSOR2
-    │       ├── data(.png, .pcd, .pcd.bin)
-    │       └── ...
-    ├── sweeps   
-    │   ├── SENSOR1
-    │   │   ├── data(.png, .pcd, .pcd.bin)
-    │   │   └── ... 
-    │   └── SENSOR2
-    │       ├── data(.png, .pcd, .pcd.bin)
-    │       └── ...
-    
-```
-For more information on the contents of each JSON file, please refer to [the nuScenes documentation](https://www.nuscenes.org/nuscenes#data-format).
-
-Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widen opportunities for exploration into mapping and localization problems. 
-Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). 
-Each scene in this format is seperated by the same [Scenario](#scenario-description) classification as the rosbags.
-
-[This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
-
-### Tutorial: nuScenes jupyter notebook
+### Tutorial 3: nuScenes jupyter notebook
 
 For a full walkthrough of using the nuScenes devkit and loading and visualizing the RACECAR data using it, please refer to this <a href="https://github.com/linklab-uva/rosbag2nuscenes/blob/main/nuscenes_tutorial.ipynb" target="_blank">jupyter notebook</a>
 
-## Data Usage and License
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
-
-Under the following terms:
-
-Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-NonCommercial — You may not use the material for commercial purposes.
-No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
 ## Acknowledgement
 
 The RACECAR data would not be possible without the efforts and contributions of the following individuals.
 
 Amar Kulkarni, John Chrosniak, Emory Ducote, Utkarsh Chirimar, John Link, Madhur Behl, Andrew Shehab Saha, Calvin Chanyoung Jung, Andrea Tecozzi, Marcello Cellina, Giulio Panzani, Matteo Corno, Phillip Karle, Florian Sauerbeck, Sebastian Huch, Maximilian Geisslinger, Felix Fent, Micaela Verucchi, Ayoub Raji, Danilo Caporale, Francesco Gatti.
-
-## Citation
-
-If you find this dataset useful in your research, please consider citing:
-
-```
-@misc{racecar2023,
-      title={RACECAR -- The Dataset for High-Speed Autonomous Racing}, 
-      author={Amar Kulkarni and John Chrosniak and Emory Ducote and Florian Sauerbeck and Andrew Saba and Utkarsh Chirimar and John Link and Marcello Cellina and Madhur Behl},
-      year={2023},
-      eprint={2306.03252},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
-}
-```
