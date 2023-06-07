@@ -1,3 +1,4 @@
+scenario: 'S5'
 multi: True
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'CAVALIER'
   number: 9
   source_file: 'LVMS-MULTI-SLOW_w_Polimove/rosbag2_2022_01_04-17_06_21'
-  target_file: 'MULTI-SLOW-POLI'
+  target_file: 'C-MULTI-SLOW-POLI'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_points']
@@ -18,7 +19,7 @@ target:
   team: 'POLIMOVE'
   number: 5
   source_file: 'LVMS-MULTI-SLOW_w_Cavalier/20220104_lvms_multi_polimove_01_OK'
-  target_file: 'MULTI-SLOW-CAV'
+  target_file: 'P-MULTI-SLOW-CAV'
   gps_topics: ['/novatel_top/bestgnsspos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_left_points','/luminar_right_points','/luminar_front_points']

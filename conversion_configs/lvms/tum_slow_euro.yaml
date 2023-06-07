@@ -1,3 +1,4 @@
+scenario: 'S5'
 multi: True
 track:
   name: 'LVMS'
@@ -9,7 +10,7 @@ ego:
   team: 'TUM'
   number: 3
   source_file: 'LVMS-MULTI-SLOW_w_EURORACING/perception_bag_202201042222'
-  target_file: 'MULTI-SLOW-EURO'
+  target_file: 'T-MULTI-SLOW-EURO'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_points']
@@ -25,3 +26,4 @@ target:
   lidar_topics: ['/luminar_left_points','/luminar_left_points','/luminar_front_points']
   novatel: False
   write_to_bag: False
+  check_time: False

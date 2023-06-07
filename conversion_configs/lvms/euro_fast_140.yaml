@@ -1,3 +1,4 @@
+scenario: 'S4'
 multi: False
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'EURORACING'
   number: 6
   source_file: 'LVMS-FAST-140-170/20220107_LVMS_quali'
-  target_file: 'SOLO-FAST-140-170'
+  target_file: 'E-SOLO-FAST-140-170'
   gps_topics: ['novatel_btm_id0_gps']
   topic_types: ['sensor_msgs/msg/NavSatFix']
   lidar_topics: ['luminar_id0_cloud','luminar_l_id0_cloud','luminar_r_id0_cloud']

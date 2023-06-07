@@ -1,3 +1,4 @@
+scenario: 'S1'
 multi: False
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'POLIMOVE'
   number: 5
   source_file: 'LVMS-SLOW-70/20211228_lvms_solo_slow_polimove'
-  target_file: 'SOLO-SLOW-70'
+  target_file: 'P-SOLO-SLOW-70'
   gps_topics: ['/novatel_top/bestgnsspos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_left_points','/luminar_right_points','/luminar_front_points']

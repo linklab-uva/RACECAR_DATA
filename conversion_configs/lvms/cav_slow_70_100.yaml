@@ -1,3 +1,4 @@
+scenario: 'S2'
 multi: False
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'CAVALIER'
   number: 9
   source_file: 'LVMS-SLOW-70-100/rosbag2_2022_01_05-15_33_00'
-  target_file: 'SOLO-SLOW-70-100'
+  target_file: 'C-SOLO-SLOW-70-100'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_points']
