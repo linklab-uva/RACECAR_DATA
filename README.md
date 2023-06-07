@@ -40,11 +40,9 @@ Each autonomous run was captured with all sensor information stored in rosbags, 
 |S<sub>10</sub>|IMS|Solo Fast Lap|\> 140 mph|
 |S<sub>11</sub>|IMS|Pylon Avoidance|\< 70 mph|
 
-### nuScenes Data Format
+![nuScenes Block Diagram](https://www.nuscenes.org/public/images/nuscenes-schema.svg)
 
 We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2. The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
-
-![nuScenes Block Diagram](https://www.nuscenes.org/public/images/nuscenes-schema.svg)
 
 The nuScenes dataset is structured as follows:
 
