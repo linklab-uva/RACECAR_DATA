@@ -1,15 +1,12 @@
 # RACECAR Dataset
-Welcome to the RACECAR dataset!
 
-[![RVIZ LiDAR Viz](http://img.youtube.com/vi/h3pEPBt8iaY/0.jpg)](http://www.youtube.com/watch?v=h3pEPBt8iaY "RACECAR Dataset - GPS Labels of LiDAR")
-<!-- ![](https://user-images.githubusercontent.com/25155124/222313249-147a2e71-85da-42de-ac57-becb97a47dbf.png) -->
+Welcome to the RACECAR dataset! The RACECAR dataset is a collection of racing scenarios with full scale and high speed autonomous Indy Lights cars. These vehicles captured a plethora of LiDAR, Camera, Radar, GNSS, and IMU data during the 2021-2022 racing season of the [Indy Autonomous Challenge](https://www.indyautonomouschallenge.com).
 
-The RACECAR dataset is a collection of racing scenarios with full scale and high speed autonomous Indy Lights cars. These vehicles captured a plethora of LiDAR, Camera, Radar, GNSS, and IMU data during the 2021-2022 racing season of the [Indy Autonomous Challenge](https://www.indyautonomouschallenge.com).
+<a href="http://www.youtube.com/watch?v=h3pEPBt8iaY" target="_blank">![RVIZ LiDAR Viz](http://img.youtube.com/vi/h3pEPBt8iaY/0.jpg)</a>
 
-This repository contains scripts used to parse the dataset, custom ros messages describing GNSS/IMU/Radar data, and a conversion script that converts ros2 bags to [nuScenes](https://www.nuscenes.org/nuscenes) json files.
+This repository contains scripts used to parse the dataset, custom ros messages describing GNSS/IMU/Radar data, and a conversion script that converts ros2 bags to <a href="https://www.nuscenes.org/nuscenes" target="_blank">nuScenes</a> json files.
 
 Please contact the corresponding author at ark8su@virginia.edu for access to the dataset.
-
 
 ## Data Usage and License
 This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
@@ -20,9 +17,15 @@ Attribution — You must give appropriate credit, provide a link to the license,
 NonCommercial — You may not use the material for commercial purposes.
 No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
-## Data Organization
+## Data Format
 
-Each autonomous run was captured with all sensor information stored in rosbags, parsed, and appended with local coordinates in the East-North-Up (ENU) coordinate frame. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it captured at.
+The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format.
+
+```
+├── data
+│   ├── NUSCENES
+│   ├── RACECAR
+```
 
 ### Scenario Description
 
@@ -40,13 +43,13 @@ Each autonomous run was captured with all sensor information stored in rosbags, 
 |S<sub>10</sub>|IMS|Solo Fast Lap|\> 140 mph|
 |S<sub>11</sub>|IMS|Pylon Avoidance|\< 70 mph|
 
-### nuScenes Data Format
+## Data Availability
 
-We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
+## Data Capture
 
-The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
+Each autonomous run was captured with all sensor information stored in rosbags, parsed, and appended with local coordinates in the East-North-Up (ENU) coordinate frame. Since every run is from a seperate track testing session, we have classified each of these sessions as a scenario with a speed-range, a solo or multi-agent run, and the particular track it captured at.
 
-Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
+## Data Organization - ROS2
 
 ### Dataset Folder Structure
 
@@ -75,7 +78,21 @@ RACECAR
     │       └── MULTI-FAST-POLI.db3
 ```
 
-The ROS2 portion of the dataset is organized by scenario, with each folder within the scenario folder corresponding to a rosbag. Each of the scenario folders or specific rosbags can be replayed with the typical rosbag2 commands and can be downloaded independently or together.
+The ROS2 folder structure is organized by scenario, with each scenario folder containing a collection of rosbags. The rosbags are named corresponding to contributing racing team and a short scenario description. Inside the rosbag are the typical metadata and sqlite files.
+
+```
+TEAM_DESCRIPTION
+```
+
+### nuScenes Data Format
+
+We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
+
+The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
+
+Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
+
+
 
 ### ROS2 Topics
 
