@@ -1,10 +1,17 @@
 # RACECAR Dataset
 
-Welcome to the RACECAR dataset! The RACECAR dataset is a collection of racing scenarios with full scale and high speed autonomous Indy Lights cars. These vehicles captured a plethora of LiDAR, Camera, Radar, GNSS, and IMU data during the 2021-2022 racing season of the [Indy Autonomous Challenge](https://www.indyautonomouschallenge.com).
+Welcome to the RACECAR dataset! 
 
+The RACECAR dataset is the first open dataset for full-scale and high-speed autonomous racing. Multi-modal sensor data has been collected from fully autonomous Indy race cars operating at speeds of up to 170 mph (273 kph). 
+Six teams who raced in the [Indy Autonomous Challenge](https://www.indyautonomouschallenge.com) during 2021-22 have contributed to this dataset. 
+The dataset spans 11 interesting racing scenarios across two race tracks which include solo laps, multi-agent laps, overtaking situations, high-accelerations, banked tracks, obstacle avoidance, pit entry and exit at different speeds. 
+The data is organized and released in both ROS2 and nuScenes format. We have also developed the ROS2-to-nuScenes conversion library to achieve this. 
+The RACECAR data is unique because of the high-speed environment of autonomous racing and is suitable to explore issues regarding localization, object detection and tracking (LiDAR, Radar, and Camera), and mapping that arise at the limits of operation of the autonomous vehicle.
+
+### [RACECAR Data Video Demo:]
 <a href="http://www.youtube.com/watch?v=h3pEPBt8iaY" target="_blank">![RVIZ LiDAR Viz](http://img.youtube.com/vi/h3pEPBt8iaY/0.jpg)</a>
 
-This repository contains scripts used to parse the dataset, custom ros messages describing GNSS/IMU/Radar data, and a conversion script that converts ros2 bags to <a href="https://www.nuscenes.org/nuscenes" target="_blank">nuScenes</a> json files.
+This repository describes how the data was collected, how to download the data, its format and organization in ROS2 and NuScenes, as well as helper scripts used to parse the dataset, custom ros messages describing GNSS/IMU/Radar data, and a conversion script that converts ros2 bags to <a href="https://www.nuscenes.org/nuscenes" target="_blank">nuScenes</a> json files.
 
 
 ## Overview
