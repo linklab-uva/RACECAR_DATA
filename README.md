@@ -6,9 +6,8 @@ Welcome to the RACECAR dataset! The RACECAR dataset is a collection of racing sc
 
 This repository contains scripts used to parse the dataset, custom ros messages describing GNSS/IMU/Radar data, and a conversion script that converts ros2 bags to <a href="https://www.nuscenes.org/nuscenes" target="_blank">nuScenes</a> json files.
 
-Please contact the corresponding author at ark8su@virginia.edu for access to the dataset.
 
-### Table of Contents
+## Overview
 
 - [Data Format](#data-format)
 - [Scenario Description](#scenario-description)
@@ -25,16 +24,9 @@ Please contact the corresponding author at ark8su@virginia.edu for access to the
 - [nuScenes](#nuscenes)
     - [Folder Structure](#folder-structure-1)
     - <a href="https://github.com/linklab-uva/rosbag2nuscenes/blob/main/nuscenes_tutorial.ipynb" target="_blank">Tutorial: nuScenes</a>
+- [License](#data-usage-and-license)
 - [Acknowledgements](#acknowledgements)
-
-## Data Usage and License
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
-
-Under the following terms:
-
-Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-NonCommercial — You may not use the material for commercial purposes.
-No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+- [Citation](#citation)
 
 ## Data Capture
 
@@ -43,7 +35,7 @@ Each autonomous run was captured with all sensor information in a rosbag. All da
 
 ## Data Format
 
-The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories.
+The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories. Both data formats contain all available sensor information, however
 
 ```
 ├── data
@@ -72,6 +64,8 @@ Each recorded autonomous run is classified by a scenario description. This indic
 \* C - Cavalier, E - EuroRacing, K - KAIST, M - MIT-PITT-RW, P - PoliMove, T - TUM
 
 ## Data Availability
+
+Public Hosting TBD
 
 ## Coordinate Conventions
 
@@ -170,7 +164,39 @@ If additional namespacing or merging is required, a script is included in the ra
 **Vehicle Positions**
 |`local_odometry`| `nav_msgs/msg/Odometry`|Vehicle odometry in Cartesian coordinates derived from RTK GNSS solution|
 
+Topic placeholders `xxx` refer to the specific sensor. For the cameras there is:
+
+- `front_left`
+- `front_right`
+- `front_left_center`
+- `front_right_center`
+- `rear_left`
+- `rear_right`
+
+For LIDAR:
+
+- `luminar_front_points`
+- `luminar_left_points`
+- `luminar_right_points`
+
+For GNSS:
+
+- `novatel_top`
+- `novatel_bottom`
+
 ### Tutorial: ROS2 Visualization
+
+#### Requirements
+
+All code was tested with the following environment.
+
+- Linux (tested on Ubuntu 20.04/22.04)
+- Python 3.8+
+
+For `racecar_utils` please install the following.
+
+- ROS2 (Galactic/Humble)
+- Eigen3
 
 #### Installation of Custom ROS2 Messages
 
@@ -308,8 +334,32 @@ For more information on the contents of each JSON file, please refer to [the nuS
 Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widen opportunities for exploration into mapping and localization problems. 
 Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
 
-## Acknowledgements
+## Data Usage and License
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International Public License (CC BY-NC 4.0). To obtain a copy of this license, see LICENSE-CC-BY-NC-4.0.txt in the archive, visit CreativeCommons.org or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
-The RACECAR data was parsed, cleaned, and processed by the following individuals.
+Under the following terms:
+
+Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+NonCommercial — You may not use the material for commercial purposes.
+No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+## Acknowledgement
+
+The RACECAR data would not be possible without the efforts and contributions of the following individuals.
 
 Amar Kulkarni, John Chrosniak, Emory Ducote, Utkarsh Chirimar, John Link, Madhur Behl, Andrew Shehab Saha, Calvin Chanyoung Jung, Andrea Tecozzi, Marcello Cellina, Giulio Panzani, Matteo Corno, Phillip Karle, Florian Sauerbeck, Sebastian Huch, Maximilian Geisslinger, Felix Fent, Micaela Verucchi, Ayoub Raji, Danilo Caporale, Francesco Gatti.
+
+## Citation
+
+If you find this dataset useful in your research, please consider citing:
+
+```
+@misc{racecar2023,
+      title={RACECAR -- The Dataset for High-Speed Autonomous Racing}, 
+      author={Amar Kulkarni and John Chrosniak and Emory Ducote and Florian Sauerbeck and Andrew Saba and Utkarsh Chirimar and John Link and Marcello Cellina and Madhur Behl},
+      year={2023},
+      eprint={2306.03252},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
+}
+```
