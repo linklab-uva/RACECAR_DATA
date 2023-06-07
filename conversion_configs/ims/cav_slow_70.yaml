@@ -1,3 +1,4 @@
+scenario: 'S7'
 multi: False
 track:
   name: 'IMS'
@@ -8,7 +9,7 @@ ego:
   team: 'CAVALIER'
   number: 9
   source_file: 'IMS/IMS-SLOW-70/rosbag2_2021_10_18-15_11_37'
-  target_file: 'SOLO-SLOW-70'
+  target_file: 'C-SOLO-SLOW-70'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_front_points','/luminar_left_points','/luminar_right_points']

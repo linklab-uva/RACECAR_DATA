@@ -1,3 +1,4 @@
+scenario: 'S4'
 multi: False
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'TUM'
   number: 3
   source_file: 'LVMS-FAST-140-170/perception_bag_202201072129'
-  target_file: 'SOLO-FAST-140'
+  target_file: 'T-SOLO-FAST-140'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_points']

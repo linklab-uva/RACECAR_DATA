@@ -1,3 +1,4 @@
+scenario: 'S9'
 multi: False
 track:
   name: 'IMS'
@@ -8,7 +9,7 @@ ego:
   team: 'TUM'
   number: 3
   source_file: 'IMS-FAST-100-140/perception_bag_202110231933'
-  target_file: 'SOLO-FAST-100-140'
+  target_file: 'T-SOLO-FAST-100-140'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_points']

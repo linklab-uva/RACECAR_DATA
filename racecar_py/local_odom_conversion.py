@@ -32,7 +32,7 @@ def absoluteFilePaths(directory):
             yield os.path.abspath(os.path.join(dirpath, f))
 
 # Import ROS2 Types
-abs_msg_list = absoluteFilePaths('novatel_gps_msgs/msg')
+abs_msg_list = absoluteFilePaths('ros2_custom_msgs/novatel_gps_msgs/msg')
 add_types = {}
 
 for pathstr in abs_msg_list:
@@ -40,7 +40,7 @@ for pathstr in abs_msg_list:
     msgdef = msgpath.read_text(encoding='utf-8')
     add_types.update(get_types_from_msg(msgdef, guess_msgtype(msgpath)))
 
-abs_msg_list = absoluteFilePaths('novatel_oem7_msgs/msg')
+abs_msg_list = absoluteFilePaths('ros2_custom_msgs/novatel_oem7_msgs/msg')
 for pathstr in abs_msg_list:
     msgpath = Path(pathstr)
     msgdef = msgpath.read_text(encoding='utf-8')
@@ -71,7 +71,7 @@ class OdomConverter(object):
         
 
 
-    def read_bag_file(self, bag_file, topics, topic_types, start_time, end_time):
+    def read_bag_file(self, bag_file, topics, topic_types, start_time, end_time, check_time = True):
         topic_dict = {}
         for topic in topics:
             topic_dict[topic] = []
@@ -82,7 +82,7 @@ class OdomConverter(object):
             # messages() accepts connection filters
             connections = [x for x in reader.connections if x.topic in topics]
             for connection, timestamp, rawdata in tqdm(reader.messages(connections=connections)):
-                if timestamp*1e-9 < start_time or timestamp*1e-9 > end_time:
+                if check_time and (timestamp*1e-9 < start_time or timestamp*1e-9 > end_time):
                     continue
                 if connection.msgtype in topic_types:
                     msg = deserialize_cdr(rawdata, connection.msgtype)
@@ -160,6 +160,7 @@ class OdomConverter(object):
             if novel:
                 heading = math.atan2(local_tuple[1] - prev_pos[1], local_tuple[0] - prev_pos[0])
                 hor_speed = (((local_tuple[1] - prev_pos[1])**2+(local_tuple[0] - prev_pos[0])**2)**(0.5))/(ros_time-prev_time)
+                trk_r  = R.from_euler('z',heading)
                 # quat    = R.from_euler('z',heading).as_quat()
             else:
                 ros_header_v = bestvel.header
@@ -170,8 +171,9 @@ class OdomConverter(object):
                 hor_speed    = bestvel.hor_speed
                 ver_speed    = bestvel.ver_speed
                 heading      =-trk_gnd*deg2rad
+                trk_r  = R.from_euler('z',heading)
+                trk_r = R.from_euler('z',math.pi/2)*trk_r
             
-            trk_r  = R.from_euler('z',heading)
             quat = (trk_r).as_quat()
             rot_stdev = (math.pi/(2*180))
 
@@ -232,6 +234,7 @@ class OdomConverter(object):
 
         prev_pos = [0.0,0.0,0.0]
         prev_time = gps_messages[0][0]
+        prev_index = 0
 
         for ros_time, bestpos in tqdm(gps_messages[1:]):
 
@@ -254,14 +257,17 @@ class OdomConverter(object):
 
             novel = True
             # Find Corresponding BESTVEL
-            for time,msg in vel_messages:
+            i = 0
+            for time,msg in vel_messages[prev_index:]:
                 if msg.novatel_msg_header.gps_seconds * 1000 == gps_time:
                     ros_time_vel = time
                     bestvel = msg
                     novel = False
+                    prev_index = i + prev_index
                     break
                 if msg.novatel_msg_header.gps_seconds * 1000 > gps_time:
                     break 
+                i += 1
             
 
             # GPS 2 LOCAL CARTESIAN
@@ -269,7 +275,8 @@ class OdomConverter(object):
             if novel:
                 heading = math.atan2(local_tuple[1] - prev_pos[1], local_tuple[0] - prev_pos[0])
                 hor_speed = (((local_tuple[1] - prev_pos[1])**2+(local_tuple[0] - prev_pos[0])**2)**(0.5))/(ros_time-prev_time)
-                # quat    = R.from_euler('z',heading).as_quat()
+                trk_r  = R.from_euler('z',heading)
+
             else:
                 ros_header_v = bestvel.header
                 gps_header_v = bestvel.novatel_msg_header
@@ -279,8 +286,9 @@ class OdomConverter(object):
                 hor_speed    = bestvel.horizontal_speed
                 ver_speed    = bestvel.vertical_speed
                 heading      =-trk_gnd*deg2rad
-            
-            trk_r  = R.from_euler('z',heading)
+                trk_r  = R.from_euler('z',heading)
+                trk_r = R.from_euler('z',math.pi/2)*trk_r
+
             quat = (trk_r).as_quat()
             rot_stdev = (math.pi/(2*180))
 
@@ -488,6 +496,7 @@ class OdomConverter(object):
                 writer.write(ego_connection, timestamp, serialize_cdr(message,msgtype))
 
     def process_data(self):
+        scenario = self.cfg["scenario"]
         multi = self.cfg["multi"]
         track = self.cfg["track"]["name"]
         start_time = self.cfg["track"]["start_time"]
@@ -497,11 +506,15 @@ class OdomConverter(object):
         ego_source = self.cfg["ego"]["source_file"]
         ego_target = self.cfg["ego"]["target_file"]
         ego_path = os.path.join('../../data/RAW_ROSBAG', ego_team, track, ego_source)
-        ego_target_path = os.path.join('../../data/LOCAL_ODOM', ego_team, track, ego_target)
+        ego_target_path = os.path.join('../../data/RACECAR', scenario, ego_target)
         ego_topics = self.cfg["ego"]["gps_topics"]
         ego_types = self.cfg["ego"]["topic_types"]
         ego_lidar = self.cfg["ego"]["lidar_topics"]
         ego_write = self.cfg["ego"]["write_to_bag"]
+
+        if os.path.exists(ego_target_path):
+            print('ros2 bag at {} already exists'.format(ego_target_path))
+            return
 
 
         ego_data = self.read_bag_file(ego_path, ego_topics, ego_types, start_time, end_time)
@@ -512,29 +525,25 @@ class OdomConverter(object):
             ego_odom = self.nav2odom(ego_data[ego_topics[0]])
 
         
-        # pruned_ego_odom = [ego_odom[i] for i, y in enumerate(ego_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
-
         if multi:
             target_team = self.cfg["target"]["team"]
             target_num = self.cfg["target"]["number"]
             target_source = self.cfg["target"]["source_file"]
             target_target = self.cfg["target"]["target_file"]
             target_path = os.path.join('../../data/RAW_ROSBAG', target_team, track, target_source)
-            target_target_path = os.path.join('../../data/LOCAL_ODOM', target_team, track, target_target)
+            target_target_path = os.path.join('../../data/RACECAR', scenario, target_target)
             target_topics = self.cfg["target"]["gps_topics"]
             target_types = self.cfg["target"]["topic_types"]
             target_lidar = self.cfg["target"]["lidar_topics"]
             target_write = self.cfg["target"]["write_to_bag"]
+            target_check_time = self.cfg["target"]["check_time"]
 
-            target_data = self.read_bag_file(target_path, target_topics, target_types, start_time, end_time)
-
+            target_data = self.read_bag_file(target_path, target_topics, target_types, start_time, end_time, target_check_time)
 
             if self.cfg["target"]["novatel"]:
                 target_odom = self.gen_local_odom(target_data[target_topics[0]], target_data[target_topics[1]])
             else:
                 target_odom = self.gen_local_odom_euro(target_data[target_topics[0]], target_data[target_topics[1]])
-
-            # pruned_target_odom = [target_odom[i] for i, y in enumerate(target_odom) if (y[0]*1e-9 > start_time) and (y[0]*1e-9 < end_time)]
 
             if ego_write:
                 self.write_merged_bag(ego_bag_file=ego_path, 
@@ -602,7 +611,16 @@ class OdomConverter(object):
 
 
 if __name__ == '__main__':
-    config_file = str(sys.argv[1])
-    converter = OdomConverter(cfg = config_file)
-    converter.process_data()
+
+    config_folder = str(sys.argv[1])
+    for config in os.listdir(config_folder):
+        # try:
+        print('Processing {}'.format(config))
+        config_file = os.path.join(config_folder,config)
+        converter = OdomConverter(cfg = config_file)
+        converter.process_data()
+        # except:
+        #     print('{} did not succeed'.format(config))
+        # else:
+        #     print('{} Finished!'.format(config))
     # converter.viz_data()

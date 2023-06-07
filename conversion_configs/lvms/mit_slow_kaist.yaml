@@ -1,3 +1,4 @@
+scenario: 'S5'
 multi: True
 track:
   name: 'LVMS'
@@ -8,7 +9,7 @@ ego:
   team: 'MIT-PITT-RW'
   number: 8
   source_file: 'LVMS-MULTI-SLOW_w_KAIST/LVMS-MULTI-SLOW_w_KAIST'
-  target_file: 'MULTI-SLOW-KAIST'
+  target_file: 'M-MULTI-SLOW-KAIST'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_left_points','/luminar_right_points','/luminar_front_points']
@@ -18,7 +19,7 @@ target:
   team: 'KAIST'
   number: 4
   source_file: 'LVMS-MULTI-SLOW_w_MIT-PITT-RW/sensors_2022-01-02_14-20-08'
-  target_file: 'MULTI-SLOW-MIT'
+  target_file: 'K-MULTI-SLOW-MIT'
   gps_topics: ['/novatel_top/bestpos', '/novatel_top/bestvel']
   topic_types: ['novatel_oem7_msgs/msg/BESTPOS', 'novatel_oem7_msgs/msg/BESTVEL']
   lidar_topics: ['/luminar_left_points','/luminar_right_points','/luminar_front_points']
