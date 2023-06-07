@@ -42,11 +42,48 @@ Each autonomous run was captured with all sensor information stored in rosbags, 
 
 ### nuScenes Data Format
 
-We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2.
+We have also released the dataset in the [nuScenes format](https://www.nuscenes.org/nuscenes) for easier accessibility to those unfamiliar with ROS2. The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
 
-The conversion process is done using the [rosbag2nuscenes](https://github.com/linklab-uva/rosbag2nuscenes/tree/main) conversion tool.
+![nuScenes Block Diagram](https://www.nuscenes.org/public/images/nuscenes-schema.svg)
 
-Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widens opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz` for clarity purposes.
+The nuScenes dataset is structured as follows:
+
+```
+RACECAR nuScenes
+    ├── v1.0-mini
+    │   ├── scene.json
+    │   ├── log.json
+    │   ├── map.json
+    │   ├── sample.json
+    │   ├── sample_data.json
+    │   ├── ego_pose.json
+    │   ├── calibrated_sensor.json
+    │   ├── sensor.json
+    │   ├── instance.json
+    │   ├── sample_annotation.json
+    │   ├── category.json
+    │   ├── attribute.json
+    │   └── visibility.json 
+    ├── samples   
+    │   ├── SENSOR1
+    │   │   ├── data(.png, .pcd, .pcd.bin)
+    │   │   └── ... 
+    │   └── SENSOR2
+    │       ├── data(.png, .pcd, .pcd.bin)
+    │       └── ...
+    ├── sweeps   
+    │   ├── SENSOR1
+    │   │   ├── data(.png, .pcd, .pcd.bin)
+    │   │   └── ... 
+    │   └── SENSOR2
+    │       ├── data(.png, .pcd, .pcd.bin)
+    │       └── ...
+    
+```
+For more information on the contents of each JSON file, please refer to [the nuScenes documentation](https://www.nuscenes.org/nuscenes#data-format).
+
+Our nuScenes schema deviates slightly from the original. First, we have classified each ROS2 bag as a scene rather than splitting each bag into twenty second intervals. We believe the longer scene intervals (typically over 10 mins) widen opportunities for exploration into mapping and localization problems. Second, our dataset has no entries in the Annotation or Taxonomy JSON files due to the absence of annotations. These files are still present but have dummy entires to maintain compatibilty with the [Python nuScenes development kit](https://pypi.org/project/nuscenes-devkit/). [This guide](TODO) provides a walkthrough of how to explore the nuScenes release using the Python development kit. Similar to the nuScenes release, we have batched the sensor data from each scene into separate tarballs to allow users to only download the data they are interested in working with. Each tarball follows the naming convention of `{TEAM_NAME}_{BAG NAME}.tar.gz`.
+
 
 ### Dataset Folder Structure
 
