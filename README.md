@@ -87,7 +87,7 @@ No additional restrictions — You may not apply legal terms or technological me
 
 ### Citation
 
-Please refer to our [paper](https://arxiv.org/pdf/2306.03252.pdf) for more information and cite it if you use it in your research.
+Please refer to our [paper](https://arxiv.org/abs/2306.03252) for more information and cite it if you use it in your research.
 
 ```
 @misc{racecar2023,
