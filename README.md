@@ -412,7 +412,7 @@ Using a different motion model, tweaking the sensor measurement covariances, and
 
 ### Tutorial 3: nuScenes jupyter notebook
 
-For a full walkthrough of using the nuScenes devkit and loading and visualizing the RACECAR data using it, please refer to this <a href="https://github.com/linklab-uva/rosbag2nuscenes/blob/main/nuscenes_tutorial.ipynb" target="_blank">jupyter notebook</a>
+For a full walkthrough of using the nuScenes devkit and loading and visualizing the RACECAR data using it, please refer to this [jupyter notebook](nuscenes_tutorial.ipynb).
 
 
 ## Acknowledgement
