@@ -111,8 +111,11 @@ Both the ROS2 and nuScenes datasets are available on [AWS S3](https://aws.amazon
 The bucket is organized by
 
 1. Dataset Format (`RACECAR-ROS2` or `RACECAR-nuScenes`)
+   
 2a (RACECAR-ROS2). Scenario (`S1`, `S2`,...,`S11`)
+
 3a. Scene ('M-MULTI-SLOW_KAIST', 'E-SOLO-FAST-100-140', etc.)
+
 2b (RACECAR-nuScenes). Category ('MULTI-FAST', 'MULTI-SLOW',etc)
 
 **Download using AWS Command Line Interface (Recommended)**
