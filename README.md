@@ -102,6 +102,39 @@ Please refer to our [paper](https://arxiv.org/abs/2306.03252) for more informati
 
 ### Availability
 
+#### AWS S3 Bucket
+
+Both the ROS2 and nuScenes datasets are available on [AWS S3](https://aws.amazon.com/s3/).
+- AWS Bucket Name: **s3://racecar-dataset**
+- Region: **us-west-2**
+
+The bucket is organized by
+
+1. Dataset Format (`RACECAR-ROS2` or `RACECAR-nuScenes`)
+2a (RACECAR-ROS2). Scenario (`S1`, `S2`,...,`S11`)
+3a. Scene ('M-MULTI-SLOW_KAIST', 'E-SOLO-FAST-100-140', etc.)
+2b (RACECAR-nuScenes). Category ('MULTI-FAST', 'MULTI-SLOW',etc)
+
+**Download using AWS Command Line Interface (Recommended)**
+
+Multiple objects or folders can be downloaded using the AWS CLI. See these instructions for [installing AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
+
+Example download usage:
+
+```
+aws s3 cp s3://racecar-dataset/RACECAR-ROS2/S5/M-MULTI-SLOW-KAIST . --recursive --no-sign-request
+```
+
+This command will download the corresponding rosbag2 folder containing the metadata and db3 file.
+
+**Download using URL**
+
+Only individual objects can be downloaded using URLs, making them inconvenient for downloading rosbags.
+
+Example URL:
+
+* https://racecar-dataset/RACECAR-nuScenes/metadata.tar
+
 ## Data Organization
 
 The dataset is released in both the <a href="https://github.com/ros2/rosbag2" target="_blank">rosbag2</a> and nuScenes format. Under the dataset root directory, two folders seperate the [ROS2](#folder-structure) and [nuScenes](#folder-structure-1) directories.
