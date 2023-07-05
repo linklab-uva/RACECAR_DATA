@@ -1,0 +1,29 @@
+name: ROS2 Build Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-ros2:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ros_distro: "galactic"
+          - ros_distro: "humble"
+    container:
+      image: ros:${{ matrix.ros_distro }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Build Workspace
+        run: |
+          bash -c 'source /opt/ros/${{ matrix.ros_distro }}/setup.bash; \
+          colcon build'
