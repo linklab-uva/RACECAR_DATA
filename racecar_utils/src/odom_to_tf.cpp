@@ -3,7 +3,11 @@
 #include <functional>
 #include <exception>
 #include <iostream>
+#ifdef ROS_DISTRO_GALACTIC
+#include <tf2_eigen/tf2_eigen.h>
+#else
 #include <tf2_eigen/tf2_eigen.hpp>
+#endif
 
 OdomToTFNode::OdomToTFNode() : rclcpp::Node("odom_to_tf_node")
 {
