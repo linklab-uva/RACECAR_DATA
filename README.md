@@ -90,14 +90,15 @@ No additional restrictions — You may not apply legal terms or technological me
 Please refer to our [paper](https://arxiv.org/abs/2306.03252) for more information and cite it if you use it in your research.
 
 ```
-@misc{racecar2023,
-      title={RACECAR -- The Dataset for High-Speed Autonomous Racing}, 
-      author={Amar Kulkarni and John Chrosniak and Emory Ducote and Florian Sauerbeck and Andrew Saba and Utkarsh Chirimar and John Link and Marcello Cellina and Madhur Behl},
-      year={2023},
-      eprint={2306.03252},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
-}
+@inproceedings{Kulkarni_2023,
+   title={RACECAR - The Dataset for High-Speed Autonomous Racing},
+   url={http://dx.doi.org/10.1109/IROS55552.2023.10342053},
+   DOI={10.1109/iros55552.2023.10342053},
+   booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+   publisher={IEEE},
+   author={Kulkarni, Amar and Chrosniak, John and Ducote, Emory and Sauerbeck, Florian and Saba, Andrew and Chirimar, Utkarsh and Link, John and Behl, Madhur and Cellina, Marcello},
+   year={2023},
+   month=oct }
 ```
 
 ### Availability
